@@ -24,26 +24,15 @@ func init() {
 
 func checkMemory(data string, part int8) int {
 	var sum int
-	reMul := regexp.MustCompile(`mul\((\d{1,3}),(\d{1,3})\)`)
 	reAll := regexp.MustCompile(`(don't\(\))|(do\(\)|(mul\((\d{1,3}),(\d{1,3})\)))`)
 
-	if (part == 1) {
-		matches := reMul.FindAllStringSubmatch(data, -1)
+	var ignoreMul bool
+	ignoreMulMap := map[string]bool{"do()": false,"don't()": true}
 
-		for _, match := range matches {
-			num1, _ := strconv.Atoi(match[1])
-			num2, _ := strconv.Atoi(match[2])
-			sum += num1 * num2
-		}
-	}
+	allMatches := reAll.FindAllStringSubmatch(data, -1)
 
-	if (part == 2) {
-		var ignoreMul bool
-		ignoreMulMap := map[string]bool{"do()": false,"don't()": true}
-
-		allMatches := reAll.FindAllStringSubmatch(data, -1)
-
-		for _, match := range allMatches {
+	for _, match := range allMatches {
+		if (part == 2) {
 			if !strings.HasPrefix(match[0], "mul") {
 				ignoreMul = ignoreMulMap[match[0]]
 				continue
@@ -52,11 +41,11 @@ func checkMemory(data string, part int8) int {
 			if ignoreMul {
 				continue
 			}
-
-			num1, _ := strconv.Atoi(match[4])
-			num2, _ := strconv.Atoi(match[5])
-			sum += num1 * num2
 		}
+
+		num1, _ := strconv.Atoi(match[4])
+		num2, _ := strconv.Atoi(match[5])
+		sum += num1 * num2
 	}
 
 	return sum
