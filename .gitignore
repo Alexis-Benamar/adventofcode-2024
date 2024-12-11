@@ -1,3 +1,7 @@
-*/*.txt
-*/*.txt
+*.txt
+*/bin/*
+.DS_Store
+**/.DS_Store
+
+!*/*.go
 !template/*.txt
