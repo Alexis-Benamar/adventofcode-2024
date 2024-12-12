@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	utils "github.com/alexis-benamar/adventofcode-2024/utils"
 )
 
 //go:embed input.txt
@@ -21,13 +23,6 @@ func init() {
 	}
 
 	lines = strings.Split(data, "\n")
-}
-
-// TODO: move to helper file
-func arrayCopy(orig []string) []string {
-	newArray := make([]string, len(orig))
-	copy(newArray, orig[:])
-	return newArray
 }
 
 func checkLevels(levels []string) (bool, int) {
@@ -76,7 +71,7 @@ func main() {
 					continue
 				}
 
-				levelsCopy := arrayCopy(levels)
+				levelsCopy := utils.ArrayCopy(levels)
 				levelsCopy = append(levelsCopy[:i+j], levelsCopy[i+j+1:]...)
 
 				isSafeWithJRemoved, _ := checkLevels(levelsCopy)
